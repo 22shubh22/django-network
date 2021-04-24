@@ -41,6 +41,8 @@ def home(request):
     posts = Post.objects.filter(user=profile).order_by()
     print(posts)
     connected_users = profile.connected_users.all()
+    print("connected_users" ,type(connected_users))
+    # TODO: homepage connections are not shown
     print(connected_users)
     return render(request, 'home.html', {'profile': profile, 'posts':posts, 'connected_users': connected_users})
 
@@ -91,3 +93,8 @@ def addconnection(request):
         return render(request, 'addconnection.html', {'form': form})
 
 #TODO: make user profiles
+def profilepage(request, pk):
+    profile = Profile.objects.filter(user__username=str(pk)).first()
+    print(profile)
+    # print(profile.connected_users)
+    return render(request, 'profiles.html', {'profile': profile})

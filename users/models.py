@@ -8,7 +8,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     name = models.CharField(max_length=30, blank=True)
-    connected_users = models.ManyToManyField(User, related_name="connections", blank=True)
+    connected_users = models.ManyToManyField("Profile", blank=True)
     def __str__(self):
         return self.user.username
 

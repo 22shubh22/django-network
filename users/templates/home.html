@@ -5,11 +5,11 @@
   <hr>
   <h2>Connections</h2>
   <a href="{% url 'addconnection' %}">Add Connections</a>
-  <ul>
+  {% comment %} <ul>
     {% for item in connected_users %}
       <li>{{ item.user.username}} </li>
     {% endfor %}
-  </ul>
+  </ul> {% endcomment %}
   <hr>
   <h2>Post</h2>
   <a href="{% url 'addpost' %}">Add Post</a>
