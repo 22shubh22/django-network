@@ -79,6 +79,7 @@ def addconnection(request):
                 profiles = profiles.filter(name=name)
             if email:
                 profiles = profiles.filter(user__email=email)
+            profiles = profiles.exclude(user=request.user)
             print(profiles)
             print("name is " ,form.cleaned_data['name'])
             return render(request, 'addconnection.html', {'form': form, 'search_result': profiles})

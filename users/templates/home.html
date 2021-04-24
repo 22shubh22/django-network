@@ -4,7 +4,7 @@
   <a href="{% url 'logout' %}">logout ?</a>
   <hr>
   <h2>Connections</h2>
-  {% comment %} <a href="{% url 'connect' %}">Add Connections</a> {% endcomment %}
+  <a href="{% url 'addconnection' %}">Add Connections</a>
   <ul>
     {% for item in connected_users %}
       <li>{{ item.user.username}} </li>
