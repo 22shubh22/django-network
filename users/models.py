@@ -7,11 +7,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # name = models.CharField(max_length=200, default="name")
-    # mob_number = models.CharField(max_length=20, unique=True)
-    # email = models.EmailField(max_length=254)
-    # password = models.CharField(max_length=200)
-
+    # connected_users = models.ManyToManyField(User, related_name="connected", blank=True)
     def __str__(self):
         return self.user.username
 
@@ -19,4 +15,12 @@ class Profile(models.Model):
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-    instance.profile.save()
+
+class Post(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_posts")
+    title = models.CharField(max_length=100) 
+    text = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='post_image', blank=True, default='post_image/1.png')
+    # TODO: user who can view this.
+    def __str__(self):
+        return self.title

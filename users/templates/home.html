@@ -1,0 +1,16 @@
+{% block content %}
+  <h2> HomePage </h2>
+  <h2>Welcome, {{ profile.user.username }}!</h2>
+  <a href="{% url 'logout' %}">logout ?</a>
+  <hr>
+  <h2>Post</h2>
+  <a href="{% url 'addpost' %}">Add Post</a>
+  <ul>
+    {% for Post in posts %}
+      <li>{{ Post.title}} </li>
+    {% endfor %}
+  </ul>   
+  
+
+  
+{% endblock %}
