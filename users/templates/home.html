@@ -3,14 +3,20 @@
   <h2>Welcome, {{ profile.user.username }}!</h2>
   <a href="{% url 'logout' %}">logout ?</a>
   <hr>
+  <h2>Connections</h2>
+  {% comment %} <a href="{% url 'connect' %}">Add Connections</a> {% endcomment %}
+  <ul>
+    {% for item in connected_users %}
+      <li>{{ item.user.username}} </li>
+    {% endfor %}
+  </ul>
+  <hr>
   <h2>Post</h2>
   <a href="{% url 'addpost' %}">Add Post</a>
   <ul>
     {% for Post in posts %}
       <li>{{ Post.title}} </li>
     {% endfor %}
-  </ul>   
-  
-
+  </ul>
   
 {% endblock %}

@@ -15,8 +15,13 @@ class AddPostForm(forms.ModelForm):
     # title = forms.CharField(max_length=100, required=True, help_text='Input post title')
     # post = forms.CharField(max_length=500, required=False)
     # image = forms.ImageField()
-    #class meta maybe not necessary
 
     class Meta:
         model = Post
         fields = ("title", "text", "image",)
+
+class SearchConnectionForm(forms.Form):
+    name = forms.CharField(max_length=200, required=False)
+    email = forms.CharField(max_length=200, required=False)
+    mobile_number = forms.CharField(max_length=200, required=False)
+

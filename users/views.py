@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib import messages
 
 from .models import Profile, Post
-from .forms import SignUpForm, AddPostForm
+from .forms import SignUpForm, AddPostForm, SearchConnectionForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,9 @@ def signup(request):
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             user.save()
+            profile = Profile.objects.filter(user = user).first()
+            profile.name = form.cleaned_data.get('name')
+            profile.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -37,15 +40,17 @@ def home(request):
     print(profile)
     posts = Post.objects.filter(user=profile).order_by()
     print(posts)
-    return render(request, 'home.html', {'profile': profile, 'posts':posts})
+    connected_users = profile.connected_users.all()
+    print(connected_users)
+    return render(request, 'home.html', {'profile': profile, 'posts':posts, 'connected_users': connected_users})
 
+# click on post to know more about post.
 @login_required
 def addpost(request):
     if request.method == "POST":
         form = AddPostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            # TODO: form image field is not working properly
             profile = Profile.objects.filter(user=request.user).first()
             print(profile)
             post.user = profile
@@ -58,3 +63,30 @@ def addpost(request):
         form = AddPostForm()
         return render(request, 'addpost.html', {'form': form})
     
+@login_required
+def addconnection(request):
+    if request.method == "POST":
+        form = SearchConnectionForm(request.POST)
+        if form.is_valid():
+            print("form is valid")
+            mobile_number = form.cleaned_data['mobile_number']
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            profiles = Profile.objects.all()
+            if mobile_number:
+                profiles = profiles.filter(user__username=mobile_number)
+            if name:
+                profiles = profiles.filter(name=name)
+            if email:
+                profiles = profiles.filter(user__email=email)
+            print(profiles)
+            print("name is " ,form.cleaned_data['name'])
+            return render(request, 'addconnection.html', {'form': form, 'search_result': profiles})
+        else:
+            print("Form is invalid")
+            return render(request, 'addconnection.html', {'form': form})
+    else:
+        form = SearchConnectionForm()
+        return render(request, 'addconnection.html', {'form': form})
+
+#TODO: make user profiles

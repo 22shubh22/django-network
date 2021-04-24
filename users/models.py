@@ -6,8 +6,9 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # connected_users = models.ManyToManyField(User, related_name="connected", blank=True)
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+    name = models.CharField(max_length=30, blank=True)
+    connected_users = models.ManyToManyField(User, related_name="connections", blank=True)
     def __str__(self):
         return self.user.username
 
@@ -20,7 +21,7 @@ class Post(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_posts")
     title = models.CharField(max_length=100) 
     text = models.CharField(max_length=500)
-    image = models.ImageField(upload_to='post_image', blank=True, default='post_image/1.png')
+    image = models.ImageField(upload_to='post_image', blank=True)
     # TODO: user who can view this.
     def __str__(self):
         return self.title
