@@ -76,6 +76,8 @@ LOGOUT_REDIRECT_URL = '/login/'
 # DatabaseLOGIN_URL = '/login/
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",

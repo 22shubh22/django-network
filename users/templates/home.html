@@ -19,7 +19,7 @@
   <a href="{% url 'addpost' %}">Add Post</a>
   <ul>
     {% for Post in posts %}
-      <li>{{ Post.title}} </li>
+      <li><a href="{% url 'viewpost' pk=Post.id %}">{{ Post.title}}</a></li>
     {% endfor %}
   </ul>
   

@@ -15,6 +15,7 @@ class AddPostForm(forms.ModelForm):
     # title = forms.CharField(max_length=100, required=True, help_text='Input post title')
     # post = forms.CharField(max_length=500, required=False)
     # image = forms.ImageField()
+    # TODO: remove self form allowed profiles
     allowed_profiles = forms.ModelMultipleChoiceField(
         queryset=Profile.objects.all(),
         widget=forms.CheckboxSelectMultiple

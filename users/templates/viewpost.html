@@ -1,0 +1,11 @@
+<a href="{% url 'home' %}">Back to home</a>
+<hr>
+<h3> Post title - </h3>
+<p>{{Post.title}}</p>
+<h3> Post Text - </h3>
+<p>{{Post.text}}</p>
+{% if is_image %}
+    <img src={{Post.image.url}} width="200" height="200">    
+{% endif%}
+
+{% comment %} todo : post shared with? {% endcomment %}

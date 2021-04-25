@@ -49,7 +49,7 @@ def home(request):
 @login_required
 def addpost(request):
     if request.method == "POST":
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             profile = Profile.objects.filter(user=request.user).first()
@@ -95,7 +95,8 @@ def addconnection(request):
 def profilepage(request, pk):
     profile = Profile.objects.filter(user__username=str(pk)).first()
     print(profile)
-    posts = Post.objects.filter(user=profile).order_by()
+    posts = Post.objects.filter(user=profile)
+    # TODO: posts that current_user can see.
     print(posts)
     connected_users = profile.connected_users.all()
     print(connected_users)
@@ -128,4 +129,13 @@ def removefromconnection(request, pk):
     current_user.connected_users.remove(profile)
     return redirect('home')
 
-# TODO: view post in home and profile
+@login_required
+def viewpost(request, pk):
+    current_user = Profile.objects.filter(user=request.user).first()
+    post = Post.objects.filter(id=pk).first()
+    print(post)
+    if post.image:
+        is_image = True
+    else:
+        is_image = False
+    return render(request, 'viewpost.html', {'Post': post, 'is_image': is_image} )

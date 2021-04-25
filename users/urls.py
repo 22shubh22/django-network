@@ -13,4 +13,5 @@ urlpatterns = [
     path("profile/<str:pk>", views.profilepage, name="profilepage"),
     path("addtoconnection/<str:pk>",views.addtoconnection, name="addtoconnection"),
     path("removefromconnection/<str:pk>",views.removefromconnection, name="removefromconnection"),
+    path("viewpost/<int:pk>", views.viewpost, name="viewpost"),
 ]

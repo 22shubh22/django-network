@@ -26,7 +26,7 @@
 <h2>Post</h2>
 <ul>
     {% for Post in posts %}
-      <li>{{ Post.title}} </li>
+      <li><a href="{% url 'viewpost' pk=Post.id %}">{{ Post.title}}</a></li>
     {% endfor %}
   </ul>
 {% comment %} Here comes connection list {% endcomment %}
