@@ -1,6 +1,8 @@
 {% comment %} {% extends 'base.html' %} {% endcomment %}
-
+<a href="{% url 'home' %}">Back to home</a>
+<hr>
 {% block content %}
+
   <h2>Connect</h2>
   <form method="post">
     {% csrf_token %}
@@ -22,7 +24,7 @@
   <h4>Results</h4>
   <ul>
     {% for Profile in search_result %}
-      <li>{{ Profile.user.username}} </li>
+      <li> <a href="{% url 'profilepage' pk=Profile.user.username %}">{{ Profile.user.username}}</a> </li>
     {% endfor %}
   </ul>
 {% endblock %}

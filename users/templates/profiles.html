@@ -1,6 +1,33 @@
+<a href="{% url 'home' %}">Back to home</a>
+<hr>
 <h2> Mobile Number - {{profile.user.username}} </h2>
-<h3> Name - {{profile.name}} </h3>
-<h3> Email - {{profile.user.email}} </h3>
-<br>
-<h3> Connections </h3>
+<p> Name - {{profile.name}} </p>
+<p> Email - {{profile.user.email}} </p>
+{% if connected %}
+    <p> <b>Is in your connection </b></p>
+{% else %}
+    {% comment %} TODO: add to connection {% endcomment %}
+    <p>Not in your connection - <a href="{% url 'addtoconnection' pk=profile.user.username %}">Add to Connection?</a></p>
+{% endif %}
+<hr>
+<h2> Other Connections </h2>
+<ul>
+    {% for item in connected_users %}
+      <li> <a href="{% url 'profilepage' pk=item.user.username %}">{{ item.user.username}}</a></li>
+    {% endfor %}
+</ul>
+<hr>
+<h2> Mutual Connections </h2>
+<ul>
+    {% for item in mutual_connections %}
+      <li> <a href="{% url 'profilepage' pk=item.user.username %}">{{ item.user.username}}</a></li>
+    {% endfor %}
+</ul>
+<hr>
+<h2>Post</h2>
+<ul>
+    {% for Post in posts %}
+      <li>{{ Post.title}} </li>
+    {% endfor %}
+  </ul>
 {% comment %} Here comes connection list {% endcomment %}

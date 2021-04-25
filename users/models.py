@@ -22,6 +22,6 @@ class Post(models.Model):
     title = models.CharField(max_length=100) 
     text = models.CharField(max_length=500)
     image = models.ImageField(upload_to='post_image', blank=True)
-    # TODO: user who can view this.
+    # TODO: user who can view post.
     def __str__(self):
         return self.title

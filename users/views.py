@@ -41,9 +41,8 @@ def home(request):
     posts = Post.objects.filter(user=profile).order_by()
     print(posts)
     connected_users = profile.connected_users.all()
-    print("connected_users" ,type(connected_users))
-    # TODO: homepage connections are not shown
-    print(connected_users)
+    connected_users = connected_users.exclude(user=request.user)
+    print("connected_users", connected_users)
     return render(request, 'home.html', {'profile': profile, 'posts':posts, 'connected_users': connected_users})
 
 # click on post to know more about post.
@@ -92,9 +91,39 @@ def addconnection(request):
         form = SearchConnectionForm()
         return render(request, 'addconnection.html', {'form': form})
 
-#TODO: make user profiles
+@login_required
 def profilepage(request, pk):
     profile = Profile.objects.filter(user__username=str(pk)).first()
     print(profile)
-    # print(profile.connected_users)
-    return render(request, 'profiles.html', {'profile': profile})
+    posts = Post.objects.filter(user=profile).order_by()
+    print(posts)
+    connected_users = profile.connected_users.all()
+    print(connected_users)
+    #exclude itself from connected_users
+    connected_users = connected_users.exclude(id=profile.id)
+    connected_users = connected_users.exclude(user=request.user)
+    print(connected_users)
+    current_user = Profile.objects.filter(user=request.user).first()
+    current_user_connections = current_user.connected_users.all()
+    # mutual connections
+    mutual_connection = connected_users & current_user_connections
+    if profile in current_user_connections:
+        connected = True
+    else:
+        connected = False
+    return render(request, 'profiles.html', {'profile': profile, 'posts':posts, 'connected_users': connected_users, 'mutual_connections': mutual_connection,'connected': connected})
+
+@login_required
+def addtoconnection(request, pk):
+    profile= Profile.objects.filter(user__username=str(pk)).first()
+    current_user = Profile.objects.filter(user=request.user).first()
+    current_user.connected_users.add(profile)
+    redirect_url = '/profile/' + str(pk)
+    return redirect(redirect_url)
+
+@login_required
+def removefromconnection(request, pk):
+    profile= Profile.objects.filter(user__username=str(pk)).first()
+    current_user = Profile.objects.filter(user=request.user).first()
+    current_user.connected_users.remove(profile)
+    return redirect('home')

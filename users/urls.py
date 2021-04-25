@@ -10,5 +10,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("addpost/", views.addpost, name="addpost"),
     path("connect/", views.addconnection, name="addconnection"),
-    path("profile/<str:pk>", views.profilepage, name="profilepage")
+    path("profile/<str:pk>", views.profilepage, name="profilepage"),
+    path("addtoconnection/<str:pk>",views.addtoconnection, name="addtoconnection"),
+    path("removefromconnection/<str:pk>",views.removefromconnection, name="removefromconnection"),
 ]

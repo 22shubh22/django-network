@@ -1,15 +1,19 @@
 {% block content %}
+  <a href="{% url 'logout' %}">logout ?</a>
+  <hr>
   <h2> HomePage </h2>
   <h2>Welcome, {{ profile.user.username }}!</h2>
+  <p> Name - {{profile.name}} </p>
+  <p> Email - {{profile.user.email}} </p>
   <a href="{% url 'logout' %}">logout ?</a>
   <hr>
   <h2>Connections</h2>
-  <a href="{% url 'addconnection' %}">Add Connections</a>
-  {% comment %} <ul>
+  <a href="{% url 'addconnection' %}">Add Connections?</a>
+  <ul>
     {% for item in connected_users %}
-      <li>{{ item.user.username}} </li>
+      <li> <a href="{% url 'profilepage' pk=item.user.username %}">{{ item.user.username}}</a><a href="{% url 'removefromconnection' pk=item.user.username %}"> - Remove?</a></li>
     {% endfor %}
-  </ul> {% endcomment %}
+  </ul>
   <hr>
   <h2>Post</h2>
   <a href="{% url 'addpost' %}">Add Post</a>
