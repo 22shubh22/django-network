@@ -127,3 +127,5 @@ def removefromconnection(request, pk):
     current_user = Profile.objects.filter(user=request.user).first()
     current_user.connected_users.remove(profile)
     return redirect('home')
+
+# TODO: view post in home and profile

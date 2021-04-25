@@ -15,11 +15,14 @@ class AddPostForm(forms.ModelForm):
     # title = forms.CharField(max_length=100, required=True, help_text='Input post title')
     # post = forms.CharField(max_length=500, required=False)
     # image = forms.ImageField()
-
+    allowed_profiles = forms.ModelMultipleChoiceField(
+        queryset=Profile.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
     class Meta:
         model = Post
-        fields = ("title", "text", "image",)
-
+        fields = ("title", "text", "image","allowed_profiles")
+    
 class SearchConnectionForm(forms.Form):
     name = forms.CharField(max_length=200, required=False)
     email = forms.CharField(max_length=200, required=False)

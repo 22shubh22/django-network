@@ -6,7 +6,6 @@
 {% if connected %}
     <p> <b>Is in your connection </b></p>
 {% else %}
-    {% comment %} TODO: add to connection {% endcomment %}
     <p>Not in your connection - <a href="{% url 'addtoconnection' pk=profile.user.username %}">Add to Connection?</a></p>
 {% endif %}
 <hr>

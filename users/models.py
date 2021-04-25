@@ -20,8 +20,8 @@ def update_user_profile(sender, instance, created, **kwargs):
 class Post(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_posts")
     title = models.CharField(max_length=100) 
-    text = models.CharField(max_length=500)
+    text = models.TextField(max_length=500)
     image = models.ImageField(upload_to='post_image', blank=True)
-    # TODO: user who can view post.
+    allowed_profiles = models.ManyToManyField(Profile, blank=True)
     def __str__(self):
         return self.title
