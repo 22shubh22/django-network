@@ -54,8 +54,10 @@ def addpost(request):
             post = form.save(commit=False)
             profile = Profile.objects.filter(user=request.user).first()
             print(profile)
-            post.user = profile
+            post.user = profile 
             post.save()
+            form.save_m2m()
+            print("post data: ", post.allowed_profiles.all())
             return redirect('home')
         else:
             print("Form was not valid")
@@ -96,15 +98,21 @@ def profilepage(request, pk):
     profile = Profile.objects.filter(user__username=str(pk)).first()
     print(profile)
     posts = Post.objects.filter(user=profile)
-    # TODO: posts that current_user can see.
-    print(posts)
+    # TODO: only posts that current_user can see.
+    current_user = Profile.objects.filter(user=request.user).first()
+    # posts for current user
+    print("current_user : ", current_user)
+    current_user_posts = current_user.post_set.all()
+    p = posts.first()
+    print("allowed p's : ", p.allowed_profiles.all())
+    print("profile posts", posts)
+    print("current_user can see", current_user_posts)
+    posts = posts & current_user_posts
+    # TODO: check current_user posts
     connected_users = profile.connected_users.all()
-    print(connected_users)
-    #exclude itself from connected_users
+    # exclude itself from connected_users
     connected_users = connected_users.exclude(id=profile.id)
     connected_users = connected_users.exclude(user=request.user)
-    print(connected_users)
-    current_user = Profile.objects.filter(user=request.user).first()
     current_user_connections = current_user.connected_users.all()
     # mutual connections
     mutual_connection = connected_users & current_user_connections
