@@ -103,8 +103,6 @@ def profilepage(request, pk):
     # posts for current user
     print("current_user : ", current_user)
     current_user_posts = current_user.post_set.all()
-    p = posts.first()
-    print("allowed p's : ", p.allowed_profiles.all())
     print("profile posts", posts)
     print("current_user can see", current_user_posts)
     posts = posts & current_user_posts
